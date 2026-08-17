@@ -10,8 +10,9 @@
 | 工具 | 用途 |
 |---|---|
 | **expert2skill** | 专家方法沉淀器：引导访谈 → 规则库 JSON + 可运行 skill 包 |
-| **skill-compliance** | 发布合规检查器：披露完整性 + 免责/红线 + 金融敏感词（进 STANDARD §7/§9） |
-| **dependency-scan** | 供应链依赖扫描：宿主遮蔽 / 版本锁定 / 高危基线 / peer 完整性 |
+| **skill-compliance** | 发布合规检查器：披露完整性 + 免责/红线 + 金融敏感词 + 依赖安全（进 STANDARD §7/§9） |
+| **dependency-scan** | 供应链依赖扫描：宿主遮蔽 / 版本锁定 / 高危基线 / peer 完整性（与 skill-compliance DEP 对齐） |
+| **malware-scan** | 恶意代码静态检测：远程执行 / 混淆执行 / 数据外传 / 持久化 / 凭据读取 / 危险调用链 |
 
 ## Install
 
@@ -35,7 +36,7 @@ export function apply(ctx: Context) {
 
 ## Verified (DSH 实机验证)
 
-`verify-dsh.ts` 在真实 DSH 运行时验证：`ctx.skills.list()` 返回 3 个工具 + `ctx.skills.get('expert2skill')` 拉取 SKILL.md。
+`verify-dsh.ts` 在真实 DSH 运行时验证：`ctx.skills.list()` 返回 4 个工具 + `ctx.skills.get('expert2skill')` 拉取 SKILL.md。
 
 ## Disclosure (DISCLOSURE v0.3)
 
