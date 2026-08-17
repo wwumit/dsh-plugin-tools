@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## 1.1.1 (2026-08-17)
+
+- fix: 插件 name 导出误为 dsh-compliancehub（复制遗留）→ 修正为 dsh-plugin-tools
+
 ## 1.1.0 (2026-08-17)
 
 - 新增技能：**bundle-lint**（bundle 结构一致性校验，BND-001~006）、**runtime-probe**（实机 list/get 验证 + 证据契约报告）

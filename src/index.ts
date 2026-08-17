@@ -9,7 +9,7 @@ import type { Context } from '@deepseek-ai/cordis'
 import type { SkillProviderControl } from '@deepseek-ai/dsh-skill'
 import { HubProvider, type HubProviderConfig } from './provider.js'
 
-export const name = 'dsh-compliancehub'
+export const name = 'dsh-plugin-tools'
 export const inject = ['skills']
 
 export type { HubProvider, HubProviderConfig } from './provider.js'
