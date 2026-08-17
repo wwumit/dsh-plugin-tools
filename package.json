@@ -1,6 +1,6 @@
 {
   "name": "@wwumit/dsh-plugin-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin tools provider for DeepSeek Harness: install plugin/skill development tools (expert2skill, skill-compliance, dependency-scan) via ctx.skills from a line catalog.",
   "type": "module",
   "main": "lib/index.js",
@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=3.0.0",
-    "@deepseek-ai/dsh-skill": ">=0.1.0"
+    "@deepseek-ai/dsh-skill": ">=0.1.0-rc.6"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "latest",

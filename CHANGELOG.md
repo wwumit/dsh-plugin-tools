@@ -1,5 +1,9 @@
 # CHANGELOG
 
+
+## 1.0.1 (2026-08-17)
+
+- fix peerDeps: @deepseek-ai/dsh-skill >=0.1.0-rc.6 (npm 只有 rc 版本，>=0.1.0 装不上)
 ## 1.0.0 (2026-08-17)
 
 - 首个正式版本：plugin/skill 开发工具 provider（expert2skill、skill-compliance、dependency-scan、malware-scan，dsh.bundle）
