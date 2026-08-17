@@ -1,0 +1,4 @@
+# dsh-plugin-tools bundle patch — 注册插件/技能开发工具 provider
+- insert:
+    - id: dsh-plugin-tools
+      name: '@wwumit/dsh-plugin-tools'
