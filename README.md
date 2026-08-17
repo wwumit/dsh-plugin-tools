@@ -13,6 +13,8 @@
 | **skill-compliance** | 发布合规检查器：披露完整性 + 免责/红线 + 金融敏感词 + 依赖安全（进 STANDARD §7/§9） |
 | **dependency-scan** | 供应链依赖扫描：宿主遮蔽 / 版本锁定 / 高危基线 / peer 完整性（与 skill-compliance DEP 对齐） |
 | **malware-scan** | 恶意代码静态检测：远程执行 / 混淆执行 / 数据外传 / 持久化 / 凭据读取 / 危险调用链 |
+| **bundle-lint** | bundle 结构一致性校验：cordis.patch.yml / dsh 配置 / 入口 / 包名对齐（BND-001~006） |
+| **runtime-probe** | 实机 list/get 验证：注册插件 → 实测 → 证据契约报告（verifiedBy/verifiedAt/reportUrl） |
 
 ## Install
 
@@ -41,6 +43,12 @@ export function apply(ctx: Context) {
 ## Disclosure (DISCLOSURE v0.3)
 
 线级 catalog 双颗粒度披露：3 个工具全部 `cloud: false`（纯本地）、`disclosureSchemaVersion: 0.3`、仓级 `repos[].cloudSkills/paySkills` 同源。披露检查由 skill-compliance v1.5.x 自动执行。
+
+## CI 门禁模板（plugin-gate）
+
+仓库内 `templates/ci/plugin-gate.yml` 提供发布门禁模板：push/PR 时自动执行
+`build + bundle-lint + skill-compliance + dependency-scan + malware-scan`，任一失败即红。
+用法：复制到目标插件仓库 `.github/workflows/plugin-gate.yml`。
 
 ## Development
 

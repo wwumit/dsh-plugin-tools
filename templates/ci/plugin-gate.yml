@@ -1,0 +1,66 @@
+# plugin-gate — DSH 插件发布门禁（GitHub Actions 模板）
+# 用法：复制到目标插件仓库 .github/workflows/plugin-gate.yml，按需调整检查项。
+# 门禁内容（全部失败即红，阻止发布）：
+#   build           构建（npm ci + npm run build）
+#   bundle-lint     bundle 结构一致性
+#   skill-compliance 发布合规（披露/免责/红线）
+#   dependency-scan 供应链（宿主遮蔽/版本锁定/OSV）
+#   malware-scan    恶意代码静态检测
+name: plugin-gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          path: plugin
+
+      - name: Checkout gate tools (wwumit/skills-tools)
+        uses: actions/checkout@v4
+        with:
+          repository: wwumit/skills-tools
+          path: tools
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: plugin/package-lock.json
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build
+        working-directory: plugin
+        run: |
+          npm ci
+          npm run build
+
+      - name: bundle-lint
+        working-directory: plugin
+        run: python3 $GITHUB_WORKSPACE/tools/skills/bundle-lint/scripts/bundle-lint.py --dir . --format json
+
+      - name: skill-compliance
+        working-directory: plugin
+        run: python3 $GITHUB_WORKSPACE/tools/skills/skill-compliance/scripts/comply.py check --dir . --json
+
+      - name: dependency-scan
+        working-directory: plugin
+        run: python3 $GITHUB_WORKSPACE/tools/skills/dependency-scan/scripts/dependency-scan.py --dir . --format json
+
+      - name: malware-scan
+        working-directory: plugin
+        run: python3 $GITHUB_WORKSPACE/tools/skills/malware-scan/scripts/malware-scan.py --dir .
+
+      - name: Gate summary
+        run: echo "✅ plugin-gate 全部通过：build + bundle-lint + skill-compliance + dependency-scan + malware-scan"
