@@ -1,6 +1,6 @@
 {
   "name": "@wwumit/dsh-plugin-tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Plugin tools provider for DeepSeek Harness: install plugin/skill development tools (expert2skill, skill-compliance, dependency-scan) via ctx.skills from a line catalog.",
   "type": "module",
   "main": "lib/index.js",
