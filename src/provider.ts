@@ -32,8 +32,8 @@ export interface HubLocator {
 
 /** Provider configuration. */
 export interface HubProviderConfig {
-  /** Catalog JSON URL, e.g. https://wwumit.github.io/skills-catalog/catalog.json */
-  catalogUrl: string
+  /** Catalog JSON URL. Defaults to the line-level catalog (catalog-plugin-tools.json). */
+  catalogUrl?: string
   /** Unique provider name registered on ctx.skills. Default 'hub'. */
   providerName?: string
   /** Rank for duplicate-name resolution (lower wins). Default 250. */
@@ -46,6 +46,7 @@ export interface HubProviderConfig {
   branch?: string
 }
 
+const DEFAULT_CATALOG = 'https://wwumit.github.io/skills-catalog/catalog-plugin-tools.json'
 const DEFAULT_RANK = 250
 const DEFAULT_TIMEOUT = 10_000
 const DEFAULT_BASE = 'https://raw.githubusercontent.com'
@@ -55,13 +56,16 @@ const LOCAL_SOURCE = 'runtime' as const
 
 export class HubProvider implements SkillProvider {
   readonly name: string
+  private readonly catalogUrl: string
   private readonly rank: number
   private readonly timeoutMs: number
   private readonly baseUrl: string
   private readonly branch: string
 
-  constructor(private readonly config: HubProviderConfig) {
+  constructor(config: HubProviderConfig = {}) {
+    // 无配置兜底：cordis 在无 patch 配置时可能传 undefined/{}，插件必须可安全加载（开箱即用）
     this.name = config.providerName ?? 'hub'
+    this.catalogUrl = config.catalogUrl ?? DEFAULT_CATALOG
     this.rank = config.rank ?? DEFAULT_RANK
     this.timeoutMs = config.requestTimeoutMs ?? DEFAULT_TIMEOUT
     this.baseUrl = (config.baseUrl ?? DEFAULT_BASE).replace(/\/+$/, '')
@@ -89,7 +93,7 @@ export class HubProvider implements SkillProvider {
   async list(
     options: SkillLookupOptions,
   ): Promise<readonly SkillCandidate[] | SkillProviderObservation> {
-    const catalog = await fetchCatalog(this.config.catalogUrl, this.timeoutMs, options.signal)
+    const catalog = await fetchCatalog(this.catalogUrl, this.timeoutMs, options.signal)
     if (!catalog) {
       // Incomplete observation: consumers keep their last-good catalog and retry.
       return { candidates: [], complete: false }

@@ -24,3 +24,8 @@
 ## 0.1.0 (2026-08-16)
 
 - 初始版本（未发布）
+
+## 1.1.2 (2026-08-20)
+
+- fix: 无配置加载崩溃（dshbase #31 独立复测 runtime-fail）——`apply` 与 `HubProvider` 构造函数对 undefined/空 config 兜底；`catalogUrl` 提供默认线级 catalog（catalog-plugin-tools.json），插件开箱即用，无需 patch 配置
+- 触发：dshbase headless 复测（dsh 0.1.0-rc.6）报 `HubProvider` 读取 `config.providerName` 为 undefined

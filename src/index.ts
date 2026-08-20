@@ -25,7 +25,7 @@ export {
 /** Plugin configuration, forwarded to HubProvider. */
 export interface Config extends HubProviderConfig {}
 
-export function apply(ctx: Context, config: Config) {
+export function apply(ctx: Context, config: Config = {}) {
   ctx.skills.registerProvider(
     (_control: SkillProviderControl) => new HubProvider(config),
   )
